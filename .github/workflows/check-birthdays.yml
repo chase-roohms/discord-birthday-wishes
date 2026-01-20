@@ -44,7 +44,11 @@ jobs:
             discord_id: '498352849919541248'
     
     steps:
-      - name: Check birthday
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check Birthday
+        id: check_birthday
         env:
           DISCORD_ID: ${{ matrix.person.discord_id }}
           BIRTHDAY: ${{ matrix.person.birthday }}
@@ -53,5 +57,29 @@ jobs:
           TODAY=$(date +%m-%d)
           
           if [ "$TODAY" == "$BIRTHDAY" ]; then
-            echo "$NAME: true"
+            echo "is_birthday=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_birthday=false" >> $GITHUB_OUTPUT
           fi
+      
+      - name: Create Birthday Message
+        if: steps.check_birthday.outputs.is_birthday == 'true'
+        id: create_message
+        env:
+          NAME: ${{ matrix.person.name }}
+        run: |
+          # Read messages from YAML file
+          MESSAGES=$(yq eval '.messages[]' messages.yml)
+          
+          # Convert to array
+          readarray -t MESSAGE_ARRAY <<< "$MESSAGES"
+          
+          # Pick a random message
+          RANDOM_INDEX=$((RANDOM % ${#MESSAGE_ARRAY[@]}))
+          MESSAGE="${MESSAGE_ARRAY[$RANDOM_INDEX]}"
+          
+          # Replace {NAME} placeholder
+          MESSAGE="${MESSAGE//\{NAME\}/$NAME}"
+          
+          echo "::notice::Generated message: $MESSAGE"
+          echo "message=$MESSAGE" >> $GITHUB_OUTPUT
