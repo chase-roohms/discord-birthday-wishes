@@ -6,6 +6,11 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch: # Allows manual triggering
 
+env:
+  FROM: Chase
+  BOT_NAME: Dungeons & Disc
+  BOT_AVATAR_URL: 'https://cdn.discordapp.com/icons/1004505166537556058/5520a7d793d567ef27dabea86070b4cd.webp?size=160&quality=lossless'
+
 jobs:
   check-birthdays:
     runs-on: ubuntu-latest
@@ -92,3 +97,17 @@ jobs:
           
           echo "::notice::Generated message: $MESSAGE"
           echo "message=$MESSAGE" >> $GITHUB_OUTPUT
+      
+      - name: Send Embed to Discord
+        if: steps.check_birthday.outputs.is_birthday == 'true'
+        env: 
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          NAME: ${{ matrix.person.name }}
+          MESSAGE: ${{ steps.create_message.outputs.message }}
+        uses: chase-roohms/discord-notify@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: ${{ env.BOT_NAME }}
+          avatar_url: ${{ env.BOT_AVATAR_URL }}
+          embed-titles: "🎉 Happy Birthday ${{ env.NAME }}! 🎉"
+          embed-descriptions: ${{ env.MESSAGE }}
