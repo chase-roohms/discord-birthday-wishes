@@ -111,3 +111,4 @@ jobs:
           avatar_url: ${{ env.BOT_AVATAR_URL }}
           embed-titles: "🎉 Happy Birthday ${{ env.NAME }}! 🎉"
           embed-descriptions: ${{ env.MESSAGE }}
+          embed-footers: "Sent by ${{ env.FROM }}"
