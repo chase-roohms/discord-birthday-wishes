@@ -62,11 +62,20 @@ jobs:
             echo "is_birthday=false" >> $GITHUB_OUTPUT
           fi
       
+      - name: Create Discord Mention
+        if: steps.check_birthday.outputs.is_birthday == 'true'
+        id: create_mention
+        env:
+          DISCORD_ID: ${{ matrix.person.discord_id }}
+        run: |
+          MENTION="<@${DISCORD_ID}>"
+          echo "mention=$MENTION" >> $GITHUB_OUTPUT
+      
       - name: Create Birthday Message
         if: steps.check_birthday.outputs.is_birthday == 'true'
         id: create_message
         env:
-          NAME: ${{ matrix.person.name }}
+          MENTION: ${{ steps.create_mention.outputs.mention }}
         run: |
           # Read messages from YAML file
           MESSAGES=$(yq eval '.messages[]' messages.yml)
@@ -78,8 +87,8 @@ jobs:
           RANDOM_INDEX=$((RANDOM % ${#MESSAGE_ARRAY[@]}))
           MESSAGE="${MESSAGE_ARRAY[$RANDOM_INDEX]}"
           
-          # Replace {NAME} placeholder
-          MESSAGE="${MESSAGE//\{NAME\}/$NAME}"
+          # Replace {MENTION} placeholder
+          MESSAGE="${MESSAGE//\{MENTION\}/$MENTION}"
           
           echo "::notice::Generated message: $MESSAGE"
           echo "message=$MESSAGE" >> $GITHUB_OUTPUT
