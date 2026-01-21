@@ -2,8 +2,8 @@ name: Daily Birthday Check
 
 on:
   schedule:
-    # Run daily at 06:00 UTC
-    - cron: '0 6 * * *'
+    # Run daily at 06:10 UTC (00:10 AM CDT)
+    - cron: '10 6 * * *'
   workflow_dispatch: # Allows manual triggering
 
 env:
@@ -88,7 +88,26 @@ jobs:
         if: steps.check_birthday.outputs.is_birthday == 'true'
         id: create_date_field
         run: |
-          DATE_FIELD=$(date +"%B %d, %Y")
+          YEAR=$(date +"%Y")
+          BIRTHDAY="${{ matrix.person.birthday }}"
+          MONTH="${BIRTHDAY%-*}"
+          DAY="${BIRTHDAY#*-}"
+          
+          # Convert month number to name
+          MONTH_NAME=$(date -d "2000-${MONTH}-01" +"%B" 2>/dev/null || date -j -f "%m" "$MONTH" +"%B")
+          
+          # Add ordinal suffix to day
+          case "$DAY" in
+            01|1|21|31) SUFFIX="st" ;;
+            02|2|22) SUFFIX="nd" ;;
+            03|3|23) SUFFIX="rd" ;;
+            *) SUFFIX="th" ;;
+          esac
+          
+          # Remove leading zero from day
+          DAY=$((10#$DAY))
+          
+          DATE_FIELD="${MONTH_NAME} ${DAY}${SUFFIX}, ${YEAR}"
           echo "date_field=$DATE_FIELD" >> $GITHUB_OUTPUT
       
       - name: Create Fields JSON
