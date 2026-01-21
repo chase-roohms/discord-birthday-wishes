@@ -158,7 +158,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           NAME: ${{ matrix.person.name }}
           MESSAGE: ${{ steps.create_message.outputs.message }}
-        uses: chase-roohms/discord-notify@v1
+        uses: chase-roohms/discord-notify@v1.0.0
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           username: ${{ env.BOT_NAME }}
