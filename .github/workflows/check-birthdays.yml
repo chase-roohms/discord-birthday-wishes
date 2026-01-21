@@ -84,6 +84,27 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
       
+      - name: Create Date Field
+        if: steps.check_birthday.outputs.is_birthday == 'true'
+        id: create_date_field
+        run: |
+          DATE_FIELD=$(date +"%B %d, %Y")
+          echo "date_field=$DATE_FIELD" >> $GITHUB_OUTPUT
+      
+      - name: Create Fields JSON
+        if: steps.check_birthday.outputs.is_birthday == 'true'
+        id: create_fields_json
+        env:
+          DATE_FIELD: ${{ steps.create_date_field.outputs.date_field }}
+        run: |
+          # Create individual field objects
+          FIELD_DATE=$(jq -n --arg value "$DATE_FIELD" \
+            '{"name":"Date","value":$value, "inline": true}')
+          
+          # Combine all fields into array
+          FIELDS_JSON=$(jq -n --argjson date "$FIELD_DATE" '[$date]')
+          echo "fields_json=$FIELDS_JSON" >> $GITHUB_OUTPUT
+      
       - name: Create Birthday Message
         if: steps.check_birthday.outputs.is_birthday == 'true'
         id: create_message
@@ -119,7 +140,8 @@ jobs:
           avatar_url: ${{ env.BOT_AVATAR_URL }}
           embed-titles: "Happy Birthday ${{ env.NAME }}!"
           embed-descriptions: ${{ env.MESSAGE }}
-          embed-footers: "- ${{ env.FROM }}"
+          embed-footers: ${{ env.FROM }}
           embed-footer-icons: ${{ env.BOT_AVATAR_URL }}
           embed-timestamps: ${{ steps.create_timestamp.outputs.timestamp }}
           embed-colors: ${{ env.EMBED_COLOR }}
+          embed-fields: ${{ steps.create_fields_json.outputs.fields_json }}
