@@ -98,11 +98,11 @@ jobs:
           DATE_FIELD: ${{ steps.create_date_field.outputs.date_field }}
         run: |
           # Create individual field objects
-          FIELD_DATE=$(jq -n --arg value "$DATE_FIELD" \
+          FIELD_DATE=$(jq -nc --arg value "$DATE_FIELD" \
             '{"name":"Date","value":$value, "inline": true}')
           
           # Combine all fields into array
-          FIELDS_JSON=$(jq -n --argjson date "$FIELD_DATE" '[$date]')
+          FIELDS_JSON=$(jq -nc --argjson date "$FIELD_DATE" '[$date]')
           echo "fields_json=$FIELDS_JSON" >> $GITHUB_OUTPUT
       
       - name: Create Birthday Message
