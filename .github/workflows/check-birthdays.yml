@@ -159,7 +159,7 @@ jobs:
           username: ${{ env.BOT_NAME }}
           avatar_url: ${{ env.BOT_AVATAR_URL }}
           embed-titles: "🎉 Happy Birthday ${{ env.NAME }}! 🎉"
-          embed-thumbnails: ${{ env.THUMBNAIL_URL }}
+          embed-thumbnail-urls: ${{ env.THUMBNAIL_URL }}
           embed-descriptions: ${{ env.MESSAGE }}
           embed-footers: ${{ env.FROM }}
           embed-footer-icons: ${{ env.BOT_AVATAR_URL }}
