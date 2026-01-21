@@ -2,6 +2,8 @@
 
 Automatically sends birthday messages to friends in a Discord server using GitHub Actions.
 
+<img width="100%" alt="Example of the output seen in the discord server" src="https://github.com/user-attachments/assets/45f99b8f-b3e9-4889-9de9-6340e1bba42b" />
+
 ## How It Works
 
 A scheduled GitHub Action runs daily at 06:10 UTC and checks if anyone has a birthday. If it's someone's birthday, a message is sent to Discord with their mention and a random birthday wish.
