@@ -19,6 +19,11 @@ jobs:
     strategy:
       matrix:
         person:
+          # Define each person's name, birthday (MM-DD), and Discord ID
+          # Example:
+          #- name: John
+          #  birthday: '12-31'
+          #  discord_id: '123456789012345678'
           - name: Chase
             birthday: '10-01'
             discord_id: '712874721217216542'
