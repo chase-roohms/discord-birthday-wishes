@@ -99,7 +99,7 @@ jobs:
         run: |
           # Create individual field objects
           FIELD_DATE=$(jq -nc --arg value "$DATE_FIELD" \
-            '{"name":"Date","value":$value, "inline": true}')
+            '{"name":"🗓️ Date","value":$value, "inline": true}')
           
           # Combine all fields into array
           FIELDS_JSON=$(jq -nc --argjson date "$FIELD_DATE" '[$date]')
