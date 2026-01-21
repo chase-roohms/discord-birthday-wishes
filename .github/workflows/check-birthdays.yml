@@ -77,6 +77,13 @@ jobs:
           MENTION="<@${DISCORD_ID}>"
           echo "mention=$MENTION" >> $GITHUB_OUTPUT
       
+      - name: Create ISO 8601 Timestamp
+        if: steps.check_birthday.outputs.is_birthday == 'true'
+        id: create_timestamp
+        run: |
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+      
       - name: Create Birthday Message
         if: steps.check_birthday.outputs.is_birthday == 'true'
         id: create_message
@@ -113,4 +120,6 @@ jobs:
           embed-titles: "Happy Birthday ${{ env.NAME }}!"
           embed-descriptions: ${{ env.MESSAGE }}
           embed-footers: "- ${{ env.FROM }}"
+          embed-footer-icons: ${{ env.BOT_AVATAR_URL }}
+          embed-timestamps: ${{ steps.create_timestamp.outputs.timestamp }}
           embed-colors: ${{ env.EMBED_COLOR }}
