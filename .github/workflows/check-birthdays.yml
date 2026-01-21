@@ -19,7 +19,7 @@ jobs:
       matrix:
         person:
           - name: Chase
-            birthday: '10-01'
+            birthday: '01-21'
             discord_id: '712874721217216542'
           - name: Skyler
             birthday: '01-24'
