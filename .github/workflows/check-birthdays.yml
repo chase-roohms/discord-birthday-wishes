@@ -8,7 +8,7 @@ on:
 
 env:
   FROM: Dungeons & Discord
-  BOT_NAME: Birthday Bot
+  BOT_NAME: D&D Birthday Bot
   BOT_AVATAR_URL: 'https://cdn.discordapp.com/icons/1004505166537556058/5520a7d793d567ef27dabea86070b4cd.webp?size=160&quality=lossless'
   EMBED_COLOR: '#BE74FF'
 
