@@ -7,9 +7,10 @@ on:
   workflow_dispatch: # Allows manual triggering
 
 env:
-  FROM: Chase
-  BOT_NAME: Dungeons & Disc
+  FROM: Dungeons & Discord
+  BOT_NAME: Birthday Bot
   BOT_AVATAR_URL: 'https://cdn.discordapp.com/icons/1004505166537556058/5520a7d793d567ef27dabea86070b4cd.webp?size=160&quality=lossless'
+  EMBED_COLOR: '#BE74FF'
 
 jobs:
   check-birthdays:
@@ -109,6 +110,7 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           username: ${{ env.BOT_NAME }}
           avatar_url: ${{ env.BOT_AVATAR_URL }}
-          embed-titles: "🎉 Happy Birthday ${{ env.NAME }}! 🎉"
+          embed-titles: "Happy Birthday ${{ env.NAME }}!"
           embed-descriptions: ${{ env.MESSAGE }}
           embed-footers: "- ${{ env.FROM }}"
+          embed-colors: ${{ env.EMBED_COLOR }}
