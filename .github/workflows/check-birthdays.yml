@@ -138,7 +138,7 @@ jobs:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           username: ${{ env.BOT_NAME }}
           avatar_url: ${{ env.BOT_AVATAR_URL }}
-          embed-titles: "Happy Birthday ${{ env.NAME }}!"
+          embed-titles: "🎉 Happy Birthday ${{ env.NAME }}! 🎉"
           embed-descriptions: ${{ env.MESSAGE }}
           embed-footers: ${{ env.FROM }}
           embed-footer-icons: ${{ env.BOT_AVATAR_URL }}
