@@ -1,4 +1,4 @@
-8uuij# Discord Birthday Wishes
+# Discord Birthday Wishes
 
 Automatically sends birthday messages to friends in a Discord server using GitHub Actions.
 
