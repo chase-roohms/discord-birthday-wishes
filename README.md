@@ -1,4 +1,4 @@
-# Discord Birthday Wishes
+8uuij# Discord Birthday Wishes
 
 Automatically sends birthday messages to friends in a Discord server using GitHub Actions.
 
@@ -35,3 +35,4 @@ The workflow can be customized by editing environment variables at the top of [c
 ## Manual Trigger
 
 The workflow can be manually triggered from the Actions tab if needed.
+
